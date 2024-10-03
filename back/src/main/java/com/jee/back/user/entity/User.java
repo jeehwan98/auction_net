@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -11,7 +13,7 @@ import lombok.NoArgsConstructor;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private int id;
     @Column(name = "user_id", nullable = false)
@@ -23,4 +25,8 @@ public class User {
     @Column(name = "role", nullable = false, length = 10)
     @Enumerated(value = EnumType.STRING)
     private UserRole role;
+    @Column(name = "created_date", nullable = false)
+    private LocalDateTime createdDate;
+    @Column(name = "image_role", nullable = true)
+    private String imageUrl;
 }

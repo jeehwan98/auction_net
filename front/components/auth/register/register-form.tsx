@@ -1,8 +1,8 @@
 "use client";
 
 import { useFormState } from "react-dom";
-import InputField from "../input-field";
-import InputImage from "../input-image";
+import InputField from "../input-fields/input-field";
+import InputImage from "../input-fields/input-image";
 import { registerAction } from "@/actions/auth-actions";
 
 export default function RegisterForm() {
@@ -11,7 +11,7 @@ export default function RegisterForm() {
 
   return (
     <form action={formAction}>
-      <InputImage label="사진 등록" name="imageUrl" />
+      {/* <InputImage label="사진 등록" name="imageUrl" /> */}
       <InputField
         type="text"
         name="userId"

@@ -1,8 +1,12 @@
 package com.jee.back.auth.controller;
 
 import com.jee.back.auth.dto.LoginDTO;
+import com.jee.back.auth.dto.RegisterDTO;
+import com.jee.back.auth.service.UserDetailsImpl;
 import com.jee.back.auth.util.JwtTokenUtil;
+import com.jee.back.common.AuthenticatedUser;
 import com.jee.back.user.entity.User;
+import com.jee.back.user.entity.UserRole;
 import com.jee.back.user.repository.UserRepository;
 import com.jee.back.user.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -10,11 +14,16 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.*;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @Slf4j
@@ -30,7 +39,6 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginDTO loginDTO, HttpServletRequest request) {
-        log.info("logged in info: " + loginDTO);
         HashMap<String, Object> responseMap = new HashMap<>();
         Optional<User> userExists = userRepository.findUserByUserId(loginDTO.getUserId());
         if (userExists.isEmpty()) {
@@ -54,15 +62,40 @@ public class AuthController {
                 .maxAge(Duration.ofMinutes(30))
                 .build();
 
-        log.info("is token set?"+ jwtCookie.toString());
+        UserDetailsImpl userDetails = new UserDetailsImpl(user);
+
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+                userDetails, null, user.getRole().getAuthorities()
+        );
+        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 
         responseMap.put("message", "login success");
-//        responseMap.put("token", token);
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(responseMap);
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<?> register (@RequestBody RegisterDTO registerDTO) {
+        Map<String, String> responseMap = new HashMap<>();
+        Optional<User> registerUser = userRepository.findUserByUserId(registerDTO.getUserId());
+        if (registerUser.isPresent()) {
+            responseMap.put("message", "userId is already taken");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseMap);
+        }
+        String encodedPassword = passwordEncoder.encode(registerDTO.getPassword());
+        registerDTO.setPassword(encodedPassword);
+        registerDTO.setRole(UserRole.USER);
+        registerDTO.setCreatedDate(LocalDateTime.now());
+        User user = userService.registerUser(registerDTO);
+
+        if (user == null) {
+            responseMap.put("error", "register failed");
+        }
+        responseMap.put("message", "register success");
+        return ResponseEntity.ok().body(responseMap);
     }
 
     @GetMapping("/logout")
