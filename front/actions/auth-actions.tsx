@@ -2,8 +2,6 @@
 
 import { loginAPI, registerUserAPI } from "@/api/authAPICalls";
 import { uploadImage } from "@/lib/cloudinary";
-import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 
 export async function loginAction(prevState: null, formData: FormData) {
 
@@ -47,7 +45,7 @@ export async function registerAction(prevState: null, formData: FormData) {
 
   const userId = formData.get('userId') as string;
   const password = formData.get("password") as string;
-  const imageUrl = formData.get("imageUrl") as File;
+  // const imageUrl = formData.get("imageUrl") as File;
   const username = formData.get("username") as string;
 
   // check whether the inputted boxes were inputted correctly
@@ -59,7 +57,7 @@ export async function registerAction(prevState: null, formData: FormData) {
     userId: string;
     password: string;
     username: string;
-    imageUrl: File;
+    // imageUrl: File;
   } = {};
 
   if (isInvalidText(userId)) {
@@ -80,17 +78,17 @@ export async function registerAction(prevState: null, formData: FormData) {
 
   let imageToUpload;
 
-  try {
-    imageToUpload = await uploadImage(imageUrl);
-  } catch (error) {
-    throw error;
-  }
+  // try {
+  //   imageToUpload = await uploadImage(imageUrl);
+  // } catch (error) {
+  //   throw error;
+  // }
 
   const user = {
     userId,
     username,
     password,
-    imageUrl
+    // imageUrl
   };
 
   const registerUser = await registerUserAPI(user);

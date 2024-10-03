@@ -1,15 +1,16 @@
 'use client';
 
-import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
 import { useState } from 'react';
-import InputField from '../input-field';
+import InputField from '../input-fields/input-field';
+import { redirect, useRouter } from 'next/navigation';
 
 export default function LoginForm() {
+  const router = useRouter();
   const [loginDetails, setLoginDetails] = useState({
     userId: '',
     password: ''
   });
+
   const [errors, setErrors] = useState<{ [key: string]: string } | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -34,19 +35,19 @@ export default function LoginForm() {
         body: JSON.stringify(loginDetails),
       });
 
+      console.log('raw response::', response);
+
       const responseData = await response.json();
-      console.log('response???:::', response);
-      console.log('response data???:::', responseData);
+      console.log('responseData:', responseData);
+
+      if (responseData.error != null) {
+        setErrors({ general: responseData.error });
+      }
 
       if (response.ok) {
         if (responseData.message === 'login success') {
-          revalidatePath('/');
-          redirect('/');
-        } else {
-          setErrors(responseData.errors || { general: 'Login failed' });
+          router.push('/');
         }
-      } else {
-        setErrors(responseData.errors || { general: 'Login failed' });
       }
     } catch (error) {
       console.error('Login Error:', error);
@@ -62,7 +63,7 @@ export default function LoginForm() {
         <InputField
           type="text"
           name="userId"
-          placeholder="UserId"
+          placeholder="ID"
           onChange={handleChange}
         />
       </div>
@@ -95,7 +96,7 @@ export default function LoginForm() {
         <a href="#" className="text-sm text-blue-400 hover:text-blue-600">
           Forgot password?
         </a>
-        <a href="#" className="text-sm text-blue-400 hover:text-blue-600">
+        <a href="/register" className="text-sm text-blue-400 hover:text-blue-600">
           Register
         </a>
       </div>

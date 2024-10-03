@@ -9,13 +9,12 @@ public class AuthenticatedUser {
 
     public static User fetchUserInfo() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserDetailsImpl detailsUser = (UserDetailsImpl) authentication.getPrincipal();
-        User user = detailsUser.getUser();
-
-        if (user == null) {
+        System.out.println("authentication:???:::" + authentication);
+        if (authentication == null || !authentication.isAuthenticated()) {
             return null;
         }
 
+        User user = (User) authentication.getPrincipal();
         return user;
     }
 }

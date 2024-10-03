@@ -52,16 +52,15 @@ interface RegisterUserProps {
   userId: string;
   username: string;
   password: string;
-  imageUrl: File;
+  // imageUrl: File;
 }
 
 export async function registerUserAPI(user: RegisterUserProps) {
   try {
-    const response = await fetch(`${process.env.LOGIN_API_BASE_URL}/register`, {
+    const response = await fetch(`${baseURL}/auth/register`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        // 'Accept': '*/*'
       },
       credentials: 'include',
       body: JSON.stringify(user),
@@ -70,7 +69,7 @@ export async function registerUserAPI(user: RegisterUserProps) {
     const responseData = await response.json();
 
     if (response.ok) {
-      if (responseData.message === 'user registered') {
+      if (responseData.message === 'register success') {
         revalidatePath('/login');
         redirect('/login');
       }
@@ -79,5 +78,25 @@ export async function registerUserAPI(user: RegisterUserProps) {
   } catch (error) {
     throw error;
   }
+}
 
+export async function loggedInUser() {
+  try {
+    const response = await fetch(`${baseURL}/users`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include'
+    });
+
+    const responseData = await response.json();
+    console.log('responseData message: ', responseData);
+
+    if (response.ok) {
+      return responseData;
+    }
+  } catch (error) {
+    throw error;
+  }
 }

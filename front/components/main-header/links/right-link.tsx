@@ -3,14 +3,12 @@ import { useEffect, useState } from "react";
 import { loggedInUser } from "@/api/userAPICalls";
 import Link from "next/link";
 import { StaticImport } from "next/dist/shared/lib/get-img-props";
-import { imageLoader } from "@/lib/cloudinary";
 import NavLink from "./navlink";
 
 interface UserProfile {
   id: number;
   userId: string;
-  name: string;
-  email: string;
+  username: string;
   role: string;
   imageUrl: string | StaticImport | undefined;
   userStatus: string;
@@ -31,29 +29,38 @@ export default function RightLinkHeader() {
   const imageUrl = userInfo?.imageUrl;
   const userId = userInfo?.userId;
 
+  console.log('imageUrl:::', imageUrl);
+  console.log('userId', userId);
+
   return (
     <div className="rounded-full overflow-hidden">
       {userId ? (
         <>
-          <Link href={`/${userId}`} className="text-black">
-            <Image
+          <Link
+            href={{
+              pathname: `/${userId}`,
+              query: { name: userInfo?.username },
+            }}
+            className="text-black"
+          >
+            <div>{userInfo.username}</div>
+            {/* <Image
               src={imageUrl}
               loader={imageLoader}
               alt='profile picture'
               width={50}
               height={50}
               className="rounded-full hover:scale-105"
-            />
-            <div>{userInfo.name}</div>
+            /> */}
           </Link>
-          <button>Logout</button>
+          {/* <button>Logout</button> */}
         </>
-
       ) : (
         <nav className="flex text-gray-700 font-semibold">
           <NavLink href='/login'>Login</NavLink>
         </nav>
-      )}
-    </div>
+      )
+      }
+    </div >
   )
 }

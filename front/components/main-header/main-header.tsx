@@ -1,9 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import NavLink from "./navlink";
-import { StaticImport } from "next/dist/shared/lib/get-img-props";
-import RightLinkHeader from "./right-link";
+import RightLinkHeader from "./links/right-link";
+import NavLink from "./links/navlink";
 
 export default function Header() {
 
