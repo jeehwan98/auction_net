@@ -93,5 +93,4 @@ export async function registerAction(prevState: null, formData: FormData) {
 
   const registerUser = await registerUserAPI(user);
   console.log(registerUser);
-
 }
