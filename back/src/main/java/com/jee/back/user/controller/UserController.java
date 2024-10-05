@@ -26,14 +26,13 @@ public class UserController {
 
     @GetMapping("")
     public ResponseEntity<?> fetchCurrentUser() {
-        User user = AuthenticatedUser.fetchUserInfo();
-        log.info("currently logged in user: " + user);
-        return ResponseEntity.ok().body(user);
+        log.info("currently logged in user: " + AuthenticatedUser.fetchUserInfo());
+        return ResponseEntity.ok().body(AuthenticatedUser.fetchUserInfo());
     }
 
     @GetMapping("/all")
 //    @PreAuthorize("hasAnyRole('ROLE_USER')")
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+//    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public ResponseEntity<List<User>> fetchAllUsers() {
         List<User> allUsers = userRepository.findAll();
         return ResponseEntity.ok().body(allUsers);

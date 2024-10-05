@@ -1,5 +1,6 @@
 package com.jee.back.auth.filter;
 
+import com.jee.back.auth.service.UserDetailsImpl;
 import com.jee.back.auth.util.JwtTokenUtil;
 import com.jee.back.user.entity.User;
 import com.jee.back.user.service.UserService;
@@ -27,12 +28,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         if (StringUtils.hasText(jwt) && jwtTokenUtil.validateToken(jwt)) {
             String userId = jwtTokenUtil.getUserIdFromToken(jwt);
-
             User user = userService.findByUserId(userId);
 
             if (user != null) {
+                UserDetailsImpl userDetails = new UserDetailsImpl(user);
                 var authentication = new org.springframework.security.authentication.UsernamePasswordAuthenticationToken(
-                        user, null, user.getRole().getAuthorities());
+                        userDetails, null, userDetails.getAuthorities());
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);

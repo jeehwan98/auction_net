@@ -1,10 +1,16 @@
 package com.jee.back.user.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.jee.back.products.entity.Bid;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -29,4 +35,8 @@ public class User {
     private LocalDateTime createdDate;
     @Column(name = "image_role", nullable = true)
     private String imageUrl;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @ToString.Exclude
+    private List<Bid> bids = new ArrayList<>();
 }

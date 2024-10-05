@@ -26,23 +26,14 @@ export default function RightLinkHeader() {
     fetchUserData();
   }, []);
 
-  const imageUrl = userInfo?.imageUrl;
   const userId = userInfo?.userId;
-
-  console.log('imageUrl:::', imageUrl);
-  console.log('userId', userId);
 
   return (
     <div className="rounded-full overflow-hidden">
       {userId ? (
         <>
-          <Link
-            href={{
-              pathname: `/${userId}`,
-              query: { name: userInfo?.username },
-            }}
-            className="text-black"
-          >
+          <Link href={userId} className="text-black" >
+
             <div>{userInfo.username}</div>
             {/* <Image
               src={imageUrl}

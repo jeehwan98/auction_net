@@ -15,8 +15,9 @@ export default function Header() {
       </div>
       <nav className="flex space-x-2 text-gray-700 font-semibold">
         <NavLink href="/">Home</NavLink>
-        <NavLink href="/about">About</NavLink>
-        <NavLink href="/post">Post</NavLink>
+        <NavLink href="/products">All Auctions</NavLink>
+        <NavLink href="/post">Create Auction</NavLink>
+        <NavLink href="/post">My Auctions</NavLink>
       </nav>
       <RightLinkHeader />
     </header>
