@@ -1,9 +1,12 @@
 package com.jee.back.products.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.jee.back.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 
@@ -23,8 +26,10 @@ public class Bid {
     private LocalDateTime bidDate;
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonBackReference
     private User user;
     @ManyToOne
     @JoinColumn(name = "product_id")
+    @ToString.Exclude
     private Products product;
 }

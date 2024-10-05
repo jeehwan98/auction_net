@@ -7,6 +7,7 @@ import com.jee.back.products.entity.Products;
 import com.jee.back.products.repository.CategoryRepository;
 import com.jee.back.products.repository.ProductRepository;
 import com.jee.back.products.service.ProductService;
+import com.jee.back.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -28,19 +29,20 @@ public class ProductController {
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
 
-    @GetMapping("")
-    public ResponseEntity<?> fetchAllProducts() {
+    @GetMapping("/all")
+    public ResponseEntity<List<Products>> fetchAllProducts() {
         List<Products> allProducts = productRepository.findAll();
-        log.info("🩷🩷🩷🩷logged in user:: " + AuthenticatedUser.fetchUserInfo());
-        log.info("all products: " + allProducts);
-        return ResponseEntity.ok(allProducts);
+        log.info("user details in products: " + allProducts);
+        return ResponseEntity.ok().body(allProducts);
     }
 
     @PostMapping("")
     public ResponseEntity<?> registerProduct(@RequestBody ProductDTO productDTO) {
         log.info("logged productDTO: " + productDTO);
         productDTO.setStatus("active"); // active default
-//        productDTO.setUser(AuthenticatedUser.fetchUserInfo());
+        User user = AuthenticatedUser.fetchUserInfo();
+        System.out.println("user to be inputted: " + user);
+        productDTO.setUser(user);
         Map<String, Object> responseMap = new HashMap<>();
 
         Optional<Category> category = categoryRepository.findByCategoryName("shoes");

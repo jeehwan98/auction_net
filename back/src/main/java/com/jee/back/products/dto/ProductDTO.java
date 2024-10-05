@@ -15,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @ToString
 public class ProductDTO {
-    private int id;
+    private int productId;
     private String productName;
     private String status;
     private String description;

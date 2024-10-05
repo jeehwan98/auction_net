@@ -1,5 +1,7 @@
 package com.jee.back.products.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,6 +23,7 @@ public class Category {
     @Column(name = "category_name")
     private String categoryName;
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     @ToString.Exclude
     private List<Products> products = new ArrayList<>();
 }

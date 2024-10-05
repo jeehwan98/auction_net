@@ -27,7 +27,6 @@ export default function RightLinkHeader() {
   }, []);
 
   const userId = userInfo?.userId;
-  console.log('userInfo>????', userInfo);
 
   return (
     <div className="rounded-full overflow-hidden">
