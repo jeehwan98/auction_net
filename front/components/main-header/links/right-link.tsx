@@ -14,25 +14,17 @@ interface UserProfile {
   userStatus: string;
 }
 
-export default function RightLinkHeader() {
-  const [userInfo, setUserInfo] = useState<UserProfile | null>(null);
+interface RightLinkHeaderProps {
+  userInfo?: UserProfile | null;
+}
 
-  useEffect(() => {
-    async function fetchUserData() {
-      const userDetails = await loggedInUser();
-      setUserInfo(userDetails);
-    }
-
-    fetchUserData();
-  }, []);
-
-  const userId = userInfo?.userId;
+export default function RightLinkHeader({ userInfo }: RightLinkHeaderProps) {
 
   return (
     <div className="rounded-full overflow-hidden">
-      {userId ? (
+      {userInfo?.userId ? (
         <>
-          <Link href={userId} className="text-black" >
+          <Link href={userInfo.userId} className="text-black" >
 
             <div>{userInfo.username}</div>
             {/* <Image

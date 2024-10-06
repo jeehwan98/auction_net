@@ -3,8 +3,29 @@
 import Link from "next/link";
 import RightLinkHeader from "./links/right-link";
 import NavLink from "./links/navlink";
+import { useEffect, useState } from "react";
+import { loggedInUser } from "@/api/userAPICalls";
+import { StaticImport } from "next/dist/shared/lib/get-img-props";
+
+interface UserProfile {
+  id: number;
+  userId: string;
+  username: string;
+  role: string;
+  imageUrl: string | StaticImport | undefined;
+  userStatus: string;
+}
 
 export default function Header() {
+  const [userInfo, setUserInfo] = useState<UserProfile | null>(null);
+
+  useEffect(() => {
+    async function fetchUserData() {
+      const userDetails = await loggedInUser();
+      setUserInfo(userDetails);
+    }
+    fetchUserData();
+  }, []);
 
   return (
     <header className="flex justify-between items-center px-6 py-4 bg-white shadow-xl">
@@ -15,11 +36,11 @@ export default function Header() {
       </div>
       <nav className="flex space-x-2 text-gray-700 font-semibold">
         <NavLink href="/">Home</NavLink>
-        <NavLink href="/products">All Auctions</NavLink>
-        <NavLink href="/post">Create Auction</NavLink>
-        <NavLink href="/post">My Auctions</NavLink>
+        <NavLink href="/auction-list">All Auctions</NavLink>
+        {userInfo && <NavLink href="/create-auction">Create Auction</NavLink>}
+        {userInfo && <NavLink href="/my-auctions">My Auctions</NavLink>}
       </nav>
-      <RightLinkHeader />
+      <RightLinkHeader userInfo={userInfo} />
     </header>
   )
 }

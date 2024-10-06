@@ -60,4 +60,14 @@ public class ProductController {
         responseMap.put("message", registeredProduct);
         return ResponseEntity.ok().body(responseMap);
     }
+
+    @GetMapping("/{productId}")
+    public ResponseEntity<Products> fetchUserByUserId(@PathVariable("productId") int productId) {
+
+        Optional<Products> products = productRepository.findById(productId);
+        if (products.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(products.get());
+        }
+        return ResponseEntity.ok(products.get());
+    }
 }
