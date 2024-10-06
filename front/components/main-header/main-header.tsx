@@ -28,7 +28,12 @@ export default function Header() {
   }, []);
 
   return (
-    <header className="flex justify-between items-center px-6 py-4 bg-white shadow-xl">
+    // <header className="flex justify-between items-center px-6 py-4 bg-white shadow-2xl">
+    <header
+      className="flex justify-between items-center px-6 py-4 bg-white"
+      style={{ boxShadow: "0 10px 15px rgba(0, 0, 0, 0.2)" }}
+    >
+
       <div className="flex items-center">
         <Link href="/" className='text-black text-2xl font-semibold hover:scale-105'>
           Auction Net
