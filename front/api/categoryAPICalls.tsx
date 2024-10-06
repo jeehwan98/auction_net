@@ -3,21 +3,16 @@ const HEADERS = {
   'Content-Type': 'application/json',
 }
 
-export async function loggedInUser() {
+export async function fetchAllCategories() {
   try {
-    const response = await fetch(`${baseURL}/users`, {
-      method: 'GET',
+    const response = await fetch(`${baseURL}/category`, {
       headers: HEADERS,
-      credentials: 'include'
+      credentials: 'include',
     });
 
     const responseData = await response.json();
-    console.log(responseData.message);
-
-    if (response.ok) {
-      return responseData;
-    }
-
+    console.log('💦', responseData);
+    return responseData;
   } catch (error) {
     throw error;
   }

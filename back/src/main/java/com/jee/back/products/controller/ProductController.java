@@ -41,7 +41,6 @@ public class ProductController {
         log.info("logged productDTO: " + productDTO);
         productDTO.setStatus("active"); // active default
         User user = AuthenticatedUser.fetchUserInfo();
-        System.out.println("user to be inputted: " + user);
         productDTO.setUser(user);
         Map<String, Object> responseMap = new HashMap<>();
 
@@ -51,13 +50,13 @@ public class ProductController {
             productDTO.setCategory(categoryFetched);
         }
 
-        Products registeredProduct = productService.registerProduct(productDTO);
-        if (registeredProduct == null) {
-            responseMap.put("error", "error trying to register product details");
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseMap);
-        }
-
-        responseMap.put("message", registeredProduct);
+//        Products registeredProduct = productService.registerProduct(productDTO);
+//        if (registeredProduct == null) {
+//            responseMap.put("error", "error trying to register product details");
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseMap);
+//        }
+//
+//        responseMap.put("message", registeredProduct);
         return ResponseEntity.ok().body(responseMap);
     }
 

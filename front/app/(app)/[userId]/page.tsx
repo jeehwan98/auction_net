@@ -10,22 +10,12 @@ interface UserProfileProps {
   }
 }
 
-// interface UserProfile {
-//   id: number;
-//   userId: string;
-//   name: string;
-//   email: string;
-//   role: string;
-//   imageUrl: string | StaticImport | undefined;
-//   userStatus: string;
-// }
-
 export default function UserPage({ params }: UserProfileProps) {
+
   const userId = params.userId;
-  const router = useRouter();
-  const { username } = router.query;
-  console.log('passed on username: ', username);
-  if (!username) {
+  console.log('❗️', userId);
+
+  if (!userId) {
     notFound();
   }
 
