@@ -1,5 +1,5 @@
 import { fetchAllProducts } from "@/api/productAPICalls";
-import ProductCard from "@/components/product-page/product-card";
+import ProductCard from "@/components/products-page/product-card";
 
 interface ProductDetailProps {
   productId: number;  // Use the same name as in the backend response
