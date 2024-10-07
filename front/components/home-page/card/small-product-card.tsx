@@ -10,7 +10,6 @@ interface ProductCardProps {
 
 export default function SmallProductCard({ productDetails }: ProductCardProps) {
 
-  console.log('product?:', productDetails);
   return (
     <div className="flex">
       <div className="border border-gray-400 pt-5 pb-2 px-5 mb-4 cursor-pointer transition-transform duration-300 ease-in-out hover:scale-[1.02] hover:opacity-90">

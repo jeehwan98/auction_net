@@ -18,11 +18,10 @@ interface RegisterProductProps {
   startingPrice: number;
   expireDate: Date;
   startDate: Date;
-  // productImage: File;
+  productImage: File;
 }
 
 export async function registerProduct(registerProductDetails: FormData) {
-  console.log('reigster???ASDF?AS?DFA?SDF:', registerProductDetails);
   try {
     const response = await fetch(`${baseURL}/products`, {
       method: 'POST',

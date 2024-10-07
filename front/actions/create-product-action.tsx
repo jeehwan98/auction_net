@@ -1,28 +1,65 @@
+import { uploadImage } from "@/lib/cloudinary";
 import { registerProduct } from "./bid-action";
 
 type FormState = {
   message: string;
 }
 
-export default function createProductAction(prevState: FormState, formData: FormData) {
-
+export default async function createProductAction(prevState: FormState, formData: FormData) {
   const productName = formData.get('productName') as string;
   const description = formData.get('description') as string;
   const startingPrice = formData.get('startingPrice');
   const expireDate = new Date(formData.get('expireDate') as string).toISOString().slice(0, 19); // Convert to ISO without milliseconds
   const startDate = new Date(formData.get('startDate') as string).toISOString().slice(0, 19);
-  // const expireDate = formData.get('expireDate') as string;
-  // const startDate = formData.get('startDate') as string;
-  // const productImage = formData.get('productImage') as File;
+  const productImage = formData.get('productImage') as File;
+
+  let errors = [];
+
+  if (!productName || productName.trim().length === 0) {
+    errors.push("Product Name is required");
+  }
+
+  if (!description || description.trim().length === 0) {
+    errors.push("Description is required");
+  }
+
+  if (!startingPrice) {
+    errors.push('Starting Price is required');
+  }
+
+  if (!expireDate || !startDate) {
+    errors.push("Date has to be set");
+  }
+
+  if (errors.length > 0) {
+    return { errors };
+  }
+
+  let imageUrl;
+
+  try {
+    imageUrl = await uploadImage(productImage);
+  } catch (error) {
+    throw new Error('Image upoad failed, post was not created. Please try again later');
+  }
 
   const registerProductDetails = {
     productName,
-    // productImage,
     description,
     startingPrice: Number(startingPrice),
     startDate,
-    expireDate
+    expireDate,
+    productImage: imageUrl
   };
 
   const result = registerProduct(registerProductDetails);
 }
+
+const convertFileToBase64 = (file: File): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = (error) => reject(error);
+  });
+};

@@ -2,7 +2,6 @@ import createProductAction from "@/actions/create-product-action";
 import { fetchAllCategories } from "@/api/categoryAPICalls";
 import { useEffect, useState } from "react";
 import { useFormState } from "react-dom";
-
 export default function RegisterAuctionForm() {
   const [formState, formAction] = useFormState(createProductAction, {});
   const [categories, setCategories] = useState([]);
@@ -21,6 +20,7 @@ export default function RegisterAuctionForm() {
         <label htmlFor="image" className="block text-sm font-semibold mb-1">Product Image</label>
         <input
           type="file"
+          accept='image/png, image/jpeg'
           id="image"
           name="productImage"
           className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-300"

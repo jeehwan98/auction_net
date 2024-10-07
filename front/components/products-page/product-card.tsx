@@ -10,7 +10,6 @@ interface ProductCardProps {
 
 export default function ProductCard({ productDetails }: ProductCardProps) {
 
-  console.log('product?:', productDetails);
   return (
     <div className="flex justify-center align-middle">
       <div className="border border-gray-400 p-6 mb-4 cursor-pointer transition-transform duration-300 ease-in-out hover:scale-[1.02] hover:opacity-90">
