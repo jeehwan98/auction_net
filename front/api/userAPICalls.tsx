@@ -12,7 +12,6 @@ export async function loggedInUser() {
     });
 
     const responseData = await response.json();
-    console.log(responseData.message);
 
     if (response.ok) {
       return responseData;
