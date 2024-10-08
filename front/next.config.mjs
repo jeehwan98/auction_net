@@ -1,17 +1,23 @@
-/** @type {import('next').NextConfig} */
+// /** @type {import('next').NextConfig} */
 // const nextConfig = {};
+
+// export default nextConfig;
+
+/** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
   webpack: (config, { isServer }) => {
-    // Fixes npm packages that depend on `fs` module
+    // Avoid including `fs` module in the client-side bundle
     if (!isServer) {
-      config.node = {
-        fs: 'empty'
-      }
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        path: false, // Optionally exclude other modules like `path` if needed
+        os: false,
+      };
     }
 
-    return config
-  }
+    return config;
+  },
 };
 
 export default nextConfig;

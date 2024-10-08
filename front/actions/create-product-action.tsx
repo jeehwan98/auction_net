@@ -37,11 +37,11 @@ export default async function createProductAction(prevState: FormState, formData
 
   let imageUrl;
 
-  try {
-    imageUrl = await uploadImage(productImage);
-  } catch (error) {
-    throw new Error('Image upoad failed, post was not created. Please try again later');
-  }
+  // try {
+  //   imageUrl = await uploadImage(productImage);
+  // } catch (error) {
+  //   throw new Error('Image upoad failed, post was not created. Please try again later');
+  // }
 
   const registerProductDetails = {
     productName,
@@ -54,12 +54,3 @@ export default async function createProductAction(prevState: FormState, formData
 
   const result = registerProduct(registerProductDetails);
 }
-
-const convertFileToBase64 = (file: File): Promise<string> => {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result as string);
-    reader.onerror = (error) => reject(error);
-  });
-};
