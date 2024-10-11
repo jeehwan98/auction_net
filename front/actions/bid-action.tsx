@@ -22,6 +22,7 @@ interface RegisterProductProps {
 }
 
 export async function registerProduct(registerProductDetails: FormData) {
+  console.log(registerProductDetails);
   try {
     const response = await fetch(`${baseURL}/products`, {
       method: 'POST',

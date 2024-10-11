@@ -22,7 +22,11 @@ export default function Header() {
   useEffect(() => {
     async function fetchUserData() {
       const userDetails = await loggedInUser();
-      setUserInfo(userDetails);
+      if (userDetails.message === 'user not logged in') {
+        setUserInfo(null);
+      } else {
+        setUserInfo(userDetails);
+      }
     }
     fetchUserData();
   }, []);
