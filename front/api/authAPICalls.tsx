@@ -1,7 +1,6 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
-
 interface LoginUserInfoProps {
   userId: string;
   password: string;
@@ -15,6 +14,7 @@ interface LoginResponse {
 }
 
 const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
+const HEADERS = { 'Content-Type': 'application/json' };
 
 export async function loginAPI(loginInfo: LoginUserInfoProps) {
   try {
@@ -95,6 +95,28 @@ export async function loggedInUser() {
 
     if (response.ok) {
       return responseData;
+    }
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function logoutAPI() {
+  try {
+    const response = await fetch(`${baseURL}/auth/logout`, {
+      method: 'POST',
+      headers: HEADERS,
+      credentials: 'include'
+    });
+
+    if (response.ok) {
+      const responseData = await response.json();
+      if (responseData.message === 'logout success') {
+        return "success";
+        // revalidatePath('/');
+        // redirect('/');
+      }
+
     }
   } catch (error) {
     throw error;

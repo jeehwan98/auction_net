@@ -9,7 +9,9 @@ import com.jee.back.user.entity.User;
 import com.jee.back.user.entity.UserRole;
 import com.jee.back.user.repository.UserRepository;
 import com.jee.back.user.service.UserService;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -59,7 +61,7 @@ public class AuthController {
                 .httpOnly(true)
                 .secure(false)
                 .sameSite("Lax")
-                .maxAge(Duration.ofMinutes(30))
+                .maxAge(Duration.ofMinutes(60))
                 .build();
 
         UserDetailsImpl userDetails = new UserDetailsImpl(user);
@@ -73,6 +75,27 @@ public class AuthController {
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(responseMap);
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(HttpServletRequest request, HttpServletResponse response) {
+        HashMap<String, Object> responseMap = new HashMap<>();
+
+        ResponseCookie deleteCookie = ResponseCookie.from("accessToken")
+                .path("/")
+                .httpOnly(true)
+                .secure(false)
+                .sameSite("Lax")
+                .maxAge(0)
+                .build();
+
+        responseMap.put("message", "logout success");
+        log.info("" + responseMap);
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.SET_COOKIE, deleteCookie.toString())
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(responseMap);
     }
