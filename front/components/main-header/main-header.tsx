@@ -45,7 +45,7 @@ export default function Header() {
         {userInfo && <NavLink href="/create-auction">Create Auction</NavLink>}
         {userInfo && <NavLink href="/my-auctions">My Auctions</NavLink>}
       </nav>
-      <RightLinkHeader userInfo={userInfo} />
+      <RightLinkHeader userInfo={userInfo} setUserInfo={setUserInfo} />
     </header>
   )
 }
