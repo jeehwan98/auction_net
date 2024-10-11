@@ -80,26 +80,57 @@ export async function registerUserAPI(user: RegisterUserProps) {
   }
 }
 
+// export async function loggedInUser() {
+//   try {
+//     const response = await fetch(`${baseURL}/users`, {
+//       method: 'GET',
+//       headers: HEADERS,
+//       credentials: 'include'
+//     });
+
+
+//     const responseData = await response.json();
+//     console.log(responseData);
+
+//     // if (response.ok) {
+//     //   console.log(responseData);
+//     //   return responseData.message;
+//     // } else {
+//     //   console.log(responseData);
+//     //   if (responseData.error === 'user not logged in') {
+//     //     console.log('not logged in');
+//     //     return null;
+//     //   }
+//     //   return null;
+//     // }
+//   } catch (error) {
+//     console.log('no error')
+//     throw error;
+//   }
+// }
+
 export async function loggedInUser() {
   try {
-    const response = await fetch(`${baseURL}/users`, {
+    const response = await fetch(`${baseURL}/api/v1/users`, {
       method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: HEADERS,
       credentials: 'include'
     });
 
-    const responseData = await response.json();
-    console.log('responseData message: ', responseData);
-
     if (response.ok) {
-      return responseData;
+      const responseData = await response.json();
+      return responseData.message;
+    } else {
+      const errorData = await response.json();
+      console.log('Error data: ', errorData);
+      return null;
     }
   } catch (error) {
+    console.log('Error fetching user:', error);
     throw error;
   }
 }
+
 
 export async function logoutAPI() {
   try {

@@ -13,6 +13,8 @@ export default async function createProductAction(prevState: FormState, formData
   const startDate = new Date(formData.get('startDate') as string).toISOString().slice(0, 19);
   const productImage = formData.get('productImage') as File;
 
+  console.log('💦', productImage);
+
   let errors = [];
 
   if (!productName || productName.trim().length === 0) {
@@ -37,11 +39,11 @@ export default async function createProductAction(prevState: FormState, formData
 
   let imageUrl;
 
-  // try {
-  //   imageUrl = await uploadImage(productImage);
-  // } catch (error) {
-  //   throw new Error('Image upoad failed, post was not created. Please try again later');
-  // }
+  try {
+    imageUrl = await uploadImage(productImage);
+  } catch (error) {
+    throw new Error('Image upoad failed, post was not created. Please try again later');
+  }
 
   const registerProductDetails = {
     productName,

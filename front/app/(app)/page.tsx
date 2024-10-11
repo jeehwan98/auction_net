@@ -34,7 +34,8 @@ export default async function HomePage() {
   const resultProducts = productsDetail.filter((product) => product.status === "result");
 
   return (
-    <main className="p-20 text-black min-h-screen bg-gray-50">
+    // <main className="p-20 text-black min-h-screen bg-gray-50">
+    <main>
       <ActiveSessionAuction products={activeProducts} />
       <UpcomingSessionAuction products={upcomingProducts} />
       <ResultSessionAuction products={resultProducts} />
