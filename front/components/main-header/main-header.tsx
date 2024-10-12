@@ -4,8 +4,8 @@ import Link from "next/link";
 import RightLinkHeader from "./links/right-link";
 import NavLink from "./links/navlink";
 import { useEffect, useState } from "react";
-import { loggedInUser } from "@/api/userAPICalls";
 import { StaticImport } from "next/dist/shared/lib/get-img-props";
+import { loggedInUser } from "@/api/authAPICalls";
 
 interface UserProfile {
   id: number;

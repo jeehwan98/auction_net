@@ -8,6 +8,7 @@ import com.jee.back.user.repository.UserRepository;
 import com.jee.back.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Slf4j
@@ -30,8 +32,17 @@ public class UserController {
 
     @GetMapping("")
     public ResponseEntity<?> fetchCurrentUser() {
+        HashMap<String, Object> responseMap = new HashMap<>();
         log.info("currently logged in user: " + AuthenticatedUser.fetchUserInfo());
-        return ResponseEntity.ok().body(AuthenticatedUser.fetchUserInfo());
+        if (AuthenticatedUser.fetchUserInfo() != null) {
+            responseMap.put("user", responseMap);
+            responseMap.put("message", "user fetched successfully");
+            return ResponseEntity.ok().body(AuthenticatedUser.fetchUserInfo());
+        } else {
+            responseMap.put("message", "user not logged in");
+            log.info("" + responseMap);
+            return ResponseEntity.ok().body(responseMap);
+        }
     }
 
     @GetMapping("/all")

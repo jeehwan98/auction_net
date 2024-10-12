@@ -3,9 +3,14 @@ import { fetchAllCategories } from "@/api/categoryAPICalls";
 import { useEffect, useState } from "react";
 import { useFormState } from "react-dom";
 import UploadAuctionImage from "./upload-auction-image";
+
 export default function RegisterAuctionForm() {
   const [formState, formAction] = useFormState(createProductAction, {});
   const [categories, setCategories] = useState([]);
+
+  // ensure that the startDate doesn't start from today
+  const [startDate, setStartDate] = useState<string | null>(null);
+  const [endDate, setEndDate] = useState<string | null>(null);
 
   useEffect(() => {
     async function getCategories() {
@@ -15,21 +20,27 @@ export default function RegisterAuctionForm() {
     getCategories();
   }, []);
 
+  const getTomorrowDate = () => {
+    const today = new Date();
+    today.setDate(today.getDate() + 1);
+    return today.toISOString().split("T")[0];
+  };
+
+  // date change
+  const handleStartDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedStartDate = e.target.value;
+    setStartDate(selectedStartDate);
+
+    if (endDate && new Date(selectedStartDate) >= new Date(endDate)) {
+      setEndDate(null);
+    }
+  };
+
   return (
     <form action={formAction} className="space-y-6">
       <div>
         <label htmlFor="image" className="block text-sm font-semibold mb-1">Product Image</label>
-        {/* <div className="flex justify-center mb-6"> */}
         <UploadAuctionImage name="productImage" />
-        {/* </div> */}
-        {/* <input
-          type="file"
-          accept='image/png, image/jpeg'
-          id="image"
-          name="productImage"
-          className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-300"
-          required
-        /> */}
       </div>
       <div>
         <label htmlFor="productName" className="block text-sm font-semibold mb-1">Product Name</label>
@@ -85,6 +96,9 @@ export default function RegisterAuctionForm() {
           id="startDate"
           name="startDate"
           type="date"
+          value={startDate || ""}
+          min={getTomorrowDate()} // make sure that the starting date is starting from tomorrow
+          onChange={handleStartDateChange}
           className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-300"
           required
         />
@@ -95,6 +109,9 @@ export default function RegisterAuctionForm() {
           id="expireDate"
           name="expireDate"
           type="date"
+          value={endDate || ""}
+          min={startDate ? new Date(new Date(startDate).getTime() + 86400000).toISOString().split("T")[0] : getTomorrowDate()} // Minimum date is one day after start date
+          onChange={(e) => setEndDate(e.target.value)}
           className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-300"
           required
         />
