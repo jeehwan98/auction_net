@@ -10,8 +10,10 @@ export async function fetchAllCategories() {
       credentials: 'include',
     });
 
-    const responseData = await response.json();
-    return responseData;
+    if (response.ok) {
+      const responseData = await response.json();
+      return responseData;
+    }
   } catch (error) {
     throw error;
   }

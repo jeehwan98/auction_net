@@ -35,7 +35,7 @@ export default async function HomePage() {
 
   return (
     // <main className="p-20 text-black min-h-screen bg-gray-50">
-    <main>
+    <main className="p-20 text-black min-h-screen bg-gray-50">
       <ActiveSessionAuction products={activeProducts} />
       <UpcomingSessionAuction products={upcomingProducts} />
       <ResultSessionAuction products={resultProducts} />

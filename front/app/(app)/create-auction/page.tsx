@@ -1,54 +1,3 @@
-// 'use client';
-
-// import createProductAction from "@/actions/create-product-action";
-// import { useFormState } from "react-dom";
-
-// export default function PostPage() {
-
-//   const [formState, formAction] = useFormState(createProductAction, {});
-
-//   return (
-//     <main className="p-20 text-black min-h-screen bg-gray-50">
-//       <form action={formAction}>
-//         <input
-//           type="file"
-//           placeholder="image"
-//           required
-//         />
-//         <input
-//           className="w-full p-3 border rounded focus:outline-none focus:ring focus:border-blue-300"
-//           placeholder="Name your product"
-//           name="productName"
-//         />
-//         <input
-//           name="bid"
-//           type="number"
-//           placeholder="Bid"
-//           required
-//         />
-//         <textarea
-//           name="descrption"
-//           typeof="text"
-//           placeholder="Description"
-//           required
-//         />
-//         <input
-//           name="expireDate"
-//           type="date"
-//           placeholder="Expire Date"
-//           required
-//         />
-//         <input
-//           name="startDate"
-//           type="date"
-//           required
-//         />
-//         <button type="submit">Place Bid</button>
-//       </form>
-//     </main>
-//   )
-// }
-
 'use client';
 
 import createProductAction from "@/actions/create-product-action";
@@ -63,17 +12,21 @@ export default function PostPage() {
   const router = useRouter();
 
   useEffect(() => {
-    const checkAuthentication = async () => {
-      const user = await loggedInUser();
-      if (user) {
-        setIsAuthenticated(true);
+    async function fetchUserData() {
+      const userDetails = await loggedInUser();
+      console.log(userDetails);
+      if (userDetails.message === 'user not logged in') {
+        console.log('🩷');
+        setIsAuthenticated(false);
+        alert('You have to log to create an auction');
+        router.push('/');
       } else {
-        router.push('/login');
+        setIsAuthenticated(true);
       }
-
-      checkAuthentication();
     }
-  }, [router]);
+    fetchUserData();
+  }, []);
+
   const [formState, formAction] = useFormState(createProductAction, {});
 
   if (!isAuthenticated) {

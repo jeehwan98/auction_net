@@ -109,28 +109,6 @@ export async function registerUserAPI(user: RegisterUserProps) {
 //   }
 // }
 
-export async function loggedInUser() {
-  try {
-    const response = await fetch(`${baseURL}/api/v1/users`, {
-      method: 'GET',
-      headers: HEADERS,
-      credentials: 'include'
-    });
-
-    if (response.ok) {
-      const responseData = await response.json();
-      return responseData.message;
-    } else {
-      const errorData = await response.json();
-      console.log('Error data: ', errorData);
-      return null;
-    }
-  } catch (error) {
-    console.log('Error fetching user:', error);
-    throw error;
-  }
-}
-
 
 export async function logoutAPI() {
   try {
@@ -149,6 +127,25 @@ export async function logoutAPI() {
       }
 
     }
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function loggedInUser() {
+  try {
+    const response = await fetch(`${baseURL}/users`, {
+      method: 'GET',
+      headers: HEADERS,
+      credentials: 'include'
+    });
+
+    const responseData = await response.json();
+
+    if (response.ok) {
+      return responseData;
+    }
+
   } catch (error) {
     throw error;
   }
