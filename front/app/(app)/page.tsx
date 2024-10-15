@@ -27,8 +27,6 @@ interface ProductDetailProps {
 export default async function HomePage() {
 
   const productsDetail: ProductDetailProps[] = await fetchAllProducts();
-
-  // console.log(productsDetail);
   const activeProducts = productsDetail.filter((product) => product.status === "active");
   const upcomingProducts = productsDetail.filter((product) => product.status === "upcoming");
   const resultProducts = productsDetail.filter((product) => product.status === "result");

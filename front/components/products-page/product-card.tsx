@@ -32,6 +32,7 @@ export default function ProductCard({ productDetails }: ProductCardProps) {
                   src={productImage}
                   alt='profile picture'
                   height={40}
+                  width={40}
                 />
                 <div className="ml-3">by <span className='font-bold'>{productDetails.user.username}</span></div>
               </div>

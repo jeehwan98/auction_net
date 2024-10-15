@@ -1,5 +1,5 @@
 import { uploadImage } from "@/lib/cloudinary";
-import { registerProduct } from "./bid-action";
+import { registerProductAction } from "./bid-action";
 
 type FormState = {
   message: string;
@@ -15,7 +15,7 @@ export default async function createProductAction(prevState: FormState, formData
 
   console.log('💦', productImage);
 
-  let errors = [];
+  const errors: string[] = [];
 
   if (!productName || productName.trim().length === 0) {
     errors.push("Product Name is required");
@@ -31,6 +31,14 @@ export default async function createProductAction(prevState: FormState, formData
 
   if (!expireDate || !startDate) {
     errors.push("Date has to be set");
+  } else if (expireDate <= startDate) {
+    errors.push("Expiration Date must be after the Start Date");
+  }
+
+  if (!productImage) {
+    errors.push("Product image is required.");
+  } else if (!['image/jpeg', 'image/png', 'image/gif'].includes(productImage.type)) {
+    errors.push("Product image must be a valid image file (jpeg, png, gif).");
   }
 
   if (errors.length > 0) {
@@ -54,5 +62,7 @@ export default async function createProductAction(prevState: FormState, formData
     productImage: imageUrl
   };
 
-  const result = registerProduct(registerProductDetails);
+  const result = await registerProductAction(registerProductDetails);
+
+  return { message: "Product successfully registered", result };
 }
