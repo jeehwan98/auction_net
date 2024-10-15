@@ -20,7 +20,7 @@ interface ResultSessionAuctionPage {
 export default function ResultSessionAuction({ products }: ResultSessionAuctionPage) {
   return (
     <div className="mb-20">
-      <IndividualHeaders title="Result" />
+      <IndividualHeaders title="Ended" />
       {products.map(productDetail => (
         <SmallProductCard key={productDetail.productId} productDetails={productDetail} />
       ))}

@@ -104,8 +104,8 @@ export default function UploadAuctionImage({ name }: UploadAuctionImageProps) {
           <Image
             src={pickedImage}
             alt="The image selected by the user"
-            width={200}  // Fixed width for preview
-            height={200} // Fixed height for preview
+            width={200}
+            height={200}
             className="object-cover"
           />
         )}
