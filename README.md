@@ -1,8 +1,7 @@
 Auction site for users to bid and purchase products
 
 ## NextJS and Java Spring Boot App
-<br />
-full-stack web app built with NextJS for client-side and JAva Spring Boot and Spring Security for server-side. This is an auction site for users to bid and purchase items.
+Full-stack web app built with NextJS for client-side and Java Spring Boot and Spring Security for server-side.
 
 ## Getting Started
 To run the front-end
@@ -21,6 +20,7 @@ On the back-end
 - Tailwind CSS
 
 ## Features
-- Secure authentication using Spring Security
+- Users are allowed to upload products for auction
+- Authentication is set using Spring Security
 - Easy database configuration
 - Responsive and modern UI design with Tailwind CSS
