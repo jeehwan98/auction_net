@@ -49,12 +49,13 @@ export default function RightLinkHeader({ userInfo, setUserInfo }: RightLinkHead
   }
 
   return (
-    <div className="relative">
+    <div className="relative flex cursor-pointer text-black items-center space-x-3">
       {userInfo?.userId ? (
         <>
-          <div onClick={handleDropdownToggle} className="cursor-pointer text-black flex items-center space-x-3">
-            <div>{userInfo.username}</div>
-
+          <Link href={`/${userInfo.userId}`} className="flex">
+            {userInfo.username}
+          </Link>
+          <div className="relative" onClick={handleDropdownToggle}>
             {!userInfo.imageUrl && (
               <Image
                 src={defaultProfileImage}
@@ -74,12 +75,11 @@ export default function RightLinkHeader({ userInfo, setUserInfo }: RightLinkHead
                 className="rounded-full hover:scale-105"
               />
             )}
-
           </div>
 
           {/* dropdown menu */}
           {showDropdown && (
-            <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg">
+            <div className="absolute right-0 top-full mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg">
               {/* Close dropdown when profile is clicked */}
               <Link
                 href={`/${userInfo.userId}`}
